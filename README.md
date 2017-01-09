@@ -1,6 +1,6 @@
 # GithubArchive Subset
 
-Your own github archive in postgresql
+Your own, queriable github archive database creator
 
 ## Installation
 
