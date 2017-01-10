@@ -1,4 +1,4 @@
-# GithubArchive Subset
+# Githubarchive
 
 Your own, queriable github archive database creator
 

@@ -7,7 +7,7 @@ VCR.configure do |config|
   config.hook_into :webmock
 end
 
-require_relative '../githubarchive_subset'
+require_relative '../githubarchive'
 
 RSpec.describe GithubarchiveSubset do
   let(:db_url) { 'postgres://postgres:postgres@localhost:5432/githubarchive_subset_test' }
