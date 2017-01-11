@@ -9,10 +9,10 @@ end
 
 require_relative '../githubarchive'
 
-RSpec.describe GithubarchiveSubset do
+RSpec.describe Githubarchive do
   let(:db_url) { 'postgres://postgres:postgres@localhost:5432/githubarchive_subset_test' }
   let(:db) { Sequel.connect(db_url) }
-  let(:storage) { GithubarchiveSubset::Database.new(db_url) }
+  let(:storage) { described_class::Database.new(db_url) }
   let(:filter) { Proc.new {|event| !(event['type'] == 'PullRequestEvent' && event['payload']['action'] == 'opened')}}
   let(:procesor) { Proc.new {|event| storage.call(event) } }
 
@@ -21,7 +21,7 @@ RSpec.describe GithubarchiveSubset do
   it 'dowloads and inserts data into db' do
     VCR.use_cassette("githubarchive_2015010112") do
       expect {
-        GithubarchiveSubset.new(filter: filter, procesor: procesor).call(archive_url)
+        described_class.new(filter: filter, procesor: procesor).call(archive_url)
       }.to change{ db[:events].count }.by(189)
     end
   end

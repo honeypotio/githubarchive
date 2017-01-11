@@ -2,7 +2,7 @@ require 'open-uri'
 require 'zlib'
 require 'yajl'
 
-class GithubarchiveSubset
+class Githubarchive
   BASE_URL = 'http://data.githubarchive.org/'
   FILE_EXT = '.json.gz'
   TIME_PATTERN = '%Y-%m-%d-%H'
