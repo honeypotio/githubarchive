@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'zlib'
 require 'yajl'
+require 'time'
 
 class Githubarchive
   BASE_URL = 'http://data.githubarchive.org/'
