@@ -23,7 +23,7 @@ class Githubarchive
     end
   end
 
-  def to_archive_links(start_time, end_time=nil)
+  def to_links(start_time, end_time=nil)
     time_hour_iterate(start_time, end_time || start_time).map do |time|
       BASE_URL + time.strftime(TIME_PATTERN) + FILE_EXT
     end
@@ -63,9 +63,9 @@ class Githubarchive
       events.insert(event)
     end
 
-    def create
+    def create_table(name = :events)
       add_uuid_extensin
-      database.create_table :events do
+      database.create_table name do
         column :uuid, :uuid, default: Sequel.function(:uuid_generate_v4), primary_key: true
         String :type
         Boolean :public
@@ -79,8 +79,8 @@ class Githubarchive
       end
     end
 
-    def drop
-      database.drop_table :events
+    def drop_table(name = :events)
+      database.drop_table name
     end
 
     private
