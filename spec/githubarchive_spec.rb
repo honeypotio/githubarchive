@@ -38,5 +38,11 @@ RSpec.describe Githubarchive do
         [archive_url, archive_url.sub('12', '13')]
       )
     end
+
+    it 'link contains only one zero for the first hour of the day' do
+      expect(subject.to_links(Time.parse('2015-01-01 00:00:00'))).to eq(
+        ['http://data.githubarchive.org/2015-01-01-0.json.gz']
+      )
+    end
   end
 end
