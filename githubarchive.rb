@@ -93,6 +93,8 @@ class Githubarchive
 
     def add_uuid_extensin
       database.run('CREATE EXTENSION "uuid-ossp"')
+    rescue Sequel::DatabaseError => e
+      puts e.message
     end
   end
 end
