@@ -6,7 +6,7 @@ require 'time'
 class Githubarchive
   BASE_URL = 'http://data.githubarchive.org/'
   FILE_EXT = '.json.gz'
-  TIME_PATTERN = '%Y-%m-%d-%H'
+  TIME_PATTERN = '%Y-%m-%d'
 
 
   def initialize(procesor: Proc.new {|event| print event }, filter: ->(_e) { false })
@@ -16,7 +16,7 @@ class Githubarchive
 
   def call(*urls)
     urls.flatten.each do |url|
-      gz = open(url)
+      gz = open_with_errors(url)
       js = Zlib::GzipReader.new(gz).read
 
       Yajl::Parser.parse(js, &method(:consumer))
@@ -25,7 +25,7 @@ class Githubarchive
 
   def to_links(start_time, end_time=nil)
     time_hour_iterate(start_time, end_time || start_time).map do |time|
-      BASE_URL + time.strftime(TIME_PATTERN) + FILE_EXT
+      BASE_URL + "#{time.strftime(TIME_PATTERN)}-#{time.hour}" + FILE_EXT
     end
   end
 
@@ -44,6 +44,13 @@ class Githubarchive
       acc << start_time
     end while (start_time += 3600) <= end_time
     acc
+  end
+
+  def open_with_errors(url)
+    open(url)
+  rescue OpenURI::HTTPError => e
+    puts "cant open archive: #{url}"
+    raise e
   end
 
   require 'sequel'
