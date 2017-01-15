@@ -35,9 +35,51 @@ would still like to query the data frequently this project helps
 to import the archive (or at least a subset of it) into your own
 Postgres database.
 
-## Installation
+## Importing data
 
+```shell
+# Clone repository:
+git clone git@github.com:honeypotio/githubarchive.git
 
+# install dependencies
+cd githubarchive
+bundle install
+
+# create test database
+psql -c 'create database githubarchive_test;' -U postgres
+
+# create events table
+ruby -r ./githubarchive.rb -e "Githubarchive::Database.new('postgres://postgres:postgres@localhost:5432/githubarchive_test').create_table"
+
+# verify it works
+rspec spec
+
+# set the target database
+export DATABASE_URL='postgres://user:password@host:port/database'
+
+# start irb
+irb -r ./githubarchive.rb
+```
+
+```irb
+storage = Githubarchive::Database.new(ENV['DATABASE_URL'])
+
+# required if you want to import filtered events
+filter = Proc.new { |e| e['type'] != 'PullRequestEvent' }
+
+archive = Githubarchive.new(filter: filter, procesor: storage)
+
+# create events table if not present
+storage.create_table
+
+# generate archive links from start, end times
+archive_links = archive.to_links(
+  Time.parse('2016-01-01 00:00:00'),
+  Time.parse('2016-01-31 23:00:00')
+)
+
+archive.call(archive_links)
+```
 
 ## Setup
 
