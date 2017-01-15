@@ -14,6 +14,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
+    rake (11.3.0)
     safe_yaml (1.0.4)
     sequel (4.42.0)
     slop (3.6.0)
@@ -30,10 +31,14 @@ PLATFORMS
 DEPENDENCIES
   pg
   pry
+  rake
   sequel
   vcr
   webmock
   yajl-ruby
+
+RUBY VERSION
+   ruby 2.3.3p222
 
 BUNDLED WITH
    1.13.6
