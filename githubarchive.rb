@@ -62,7 +62,7 @@ class Githubarchive
     end
 
     def call(event)
-      event['payload'] = Sequel.pg_json(event['payload']) if event['payload']
+      event['payload'] = Sequel.pg_jsonb(event['payload']) if event['payload']
       event['repo'] = Sequel.pg_json(event['repo']) if event['repo']
       event['actor'] = Sequel.pg_json(event['actor']) if event['actor']
       event['org'] = Sequel.pg_json(event['org']) if event['org']
