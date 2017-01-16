@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+
+require_relative '../githubarchive.rb'
+
+Githubarchive::Database.new(
+  'postgres://postgres:postgres@localhost:5432/githubarchive_test'
+).create_table

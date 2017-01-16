@@ -1,4 +1,0 @@
-#!/bin/bash
-
-psql -c 'create database githubarchive_test;' -U postgres
-bundle exec ruby -r ./githubarchive.rb -e "Githubarchive::Database.new('postgres://postgres:postgres@localhost:5432/githubarchive_test').create_table"

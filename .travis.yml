@@ -2,4 +2,5 @@ language: ruby
 services:
   - postgresql
 before_script:
-  - ./script/create_test_db
+  - psql -c 'create database githubarchive_test;' -U postgres
+  - ./script/create_test_events_table
