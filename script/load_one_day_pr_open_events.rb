@@ -16,8 +16,8 @@ archive = Githubarchive.new(filter: filter, procesor: storage)
 
 # generate archive links from start, end times
 archive_links = archive.to_links(
-  Time.parse('2016-01-23 00:00:00'),
-  Time.parse('2016-01-23 23:59:59')
+  Time.parse('2016-01-27 00:00:00'),
+  Time.parse('2016-01-27 23:59:59')
 )
 
 archive.call(archive_links)

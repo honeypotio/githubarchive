@@ -75,7 +75,7 @@ storage.create_table
 # generate archive links from start, end times
 archive_links = archive.to_links(
   Time.parse('2016-01-01 00:00:00'),
-  Time.parse('2016-01-31 23:00:00')
+  Time.parse('2016-01-01 23:59:59')
 )
 
 archive.call(archive_links)
