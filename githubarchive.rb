@@ -67,6 +67,8 @@ class Githubarchive
       event['actor'] = Sequel.pg_json(event['actor']) if event['actor']
       event['org'] = Sequel.pg_json(event['org']) if event['org']
       event['other'] = Sequel.pg_json(event['other']) if event['other']
+      event['inserted_at'] = Time.now
+      event['updated_at'] = Time.now
       events.insert(event)
     end
 
@@ -74,15 +76,17 @@ class Githubarchive
       add_uuid_extensin
       database.create_table name do
         column :uuid, :uuid, default: Sequel.function(:uuid_generate_v4), primary_key: true
-        String :type
+        String :type, null: false
         Boolean :public
         column :payload, :jsonb
         column :repo, :json
         column :actor, :json
         column :org, :json
         DateTime :created_at
-        String :id
+        String :id, unique: true
         column :other, :json
+        DateTime :inserted_at, null: false # Utility column
+        DateTime :updated_at, null: false # Utility column
       end
     end
 
