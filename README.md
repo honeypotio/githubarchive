@@ -46,10 +46,9 @@ cd githubarchive
 bundle install
 
 # create test database
-psql -c 'create database githubarchive_test;' -U postgres
-
-# create events table
-ruby -r ./githubarchive.rb -e "Githubarchive::Database.new('postgres://postgres:postgres@localhost:5432/githubarchive_test').create_table"
+```
+[/script/create_test_db]()
+```
 
 # verify it works
 rspec spec
