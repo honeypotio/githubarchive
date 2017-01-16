@@ -46,9 +46,7 @@ cd githubarchive
 bundle install
 
 # create test database
-```
-[/script/create_test_db]()
-```
+./script/create_test_db
 
 # verify it works
 rspec spec

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+psql -c 'create database githubarchive_test;' -U postgres
+./script/create_test_events_table
