@@ -16,6 +16,10 @@ RSpec.describe Githubarchive do
 
   let(:archive_url) { 'http://data.githubarchive.org/2015-01-01-12.json.gz' }
 
+  after do
+    db.run('TRUNCATE TABLE events;')
+  end
+
   it 'dowloads and inserts data into db' do
     VCR.use_cassette("githubarchive_2015010112") do
       expect {
