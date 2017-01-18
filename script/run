@@ -3,5 +3,5 @@
 if [ "$TRAVIS_EVENT_TYPE" == "cron" ]; then
   time ./script/import_3_months_ago
 else
-  rake
+  bundle exec rake
 fi
