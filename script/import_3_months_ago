@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'date'
+
+require_relative '../githubarchive.rb'
+
+storage = Githubarchive::Database.new(ENV['DATABASE_URL'])
+
+# required if you want to import filtered events
+filter = Proc.new do |event|
+  !(event['type'] == 'PullRequestEvent' && event['payload']['action'] == 'opened')
+end
+
+archive = Githubarchive.new(filter: filter, procesor: storage)
+
+# generate archive links from start, end times
+day_to_load = Date.today
+puts day_to_load.strftime('%Y-%m-%d')
+
+archive_links = archive.to_links(
+  Time.parse("#{day_to_load.strftime('%Y-%m-%d')} 00:00:00"),
+  Time.parse("#{day_to_load.strftime('%Y-%m-%d')} 23:59:59")
+)
+
+archive.call(archive_links)

@@ -5,3 +5,4 @@ addons:
   postgresql: "9.4"
 before_script:
   - ./script/create_test_db
+script: travis_wait 59 ./script/run
