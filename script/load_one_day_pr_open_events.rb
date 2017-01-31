@@ -20,4 +20,11 @@ archive_links = archive.to_links(
   Time.parse('2016-01-27 23:59:59')
 )
 
-archive.call(archive_links)
+thread_count = ENV['THREAD_COUNT'] || 3
+
+archive_links.in_groups(thread_count, false) do |links|
+  Thread.new do
+    storage_l = Githubarchive::Database.new(ENV['DATABASE_URL'])
+    Githubarchive.new(filter: filter, procesor: storage_l).call(links)
+  end
+end
