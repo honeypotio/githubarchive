@@ -26,7 +26,7 @@ archive_links = archive.to_links(
 
 thread_count = ENV['THREAD_COUNT'] || 3
 
-archive_links.in_groups(thread_count, false) do |links|
+archive_links.each_slice((archive_links.count.to_f / thread_count).ceil) do |links|
   Thread.new do
     storage_l = Githubarchive::Database.new(ENV['DATABASE_URL'])
     Githubarchive.new(filter: filter, procesor: storage_l).call(links)
