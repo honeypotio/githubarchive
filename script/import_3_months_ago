@@ -31,4 +31,4 @@ archive_links.each_slice((archive_links.count.to_f / thread_count).ceil) do |lin
     storage_l = Githubarchive::Database.new(ENV['DATABASE_URL'])
     Githubarchive.new(filter: filter, procesor: storage_l).call(links)
   end
-end
+end.each{|t| while t.alive? { sleep 15 }}
