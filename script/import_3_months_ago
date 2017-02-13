@@ -16,7 +16,8 @@ end
 archive = Githubarchive.new(filter: filter, procesor: storage)
 
 # generate archive links from start, end times
-day_to_load = Date.today
+day_to_load = (Date.today - 90)
+puts Date.today.strftime('%Y-%m-%d')
 puts day_to_load.strftime('%Y-%m-%d')
 
 archive_links = archive.to_links(
@@ -26,9 +27,9 @@ archive_links = archive.to_links(
 
 thread_count = ENV['THREAD_COUNT'] || 3
 
-archive_links.each_slice((archive_links.count.to_f / thread_count).ceil) do |links|
+archive_links.each_slice((archive_links.count.to_f / thread_count).ceil).map do |links|
   Thread.new do
     storage_l = Githubarchive::Database.new(ENV['DATABASE_URL'])
     Githubarchive.new(filter: filter, procesor: storage_l).call(links)
   end
-end.each{|t| while t.alive? { sleep 15 }}
+end.each(&:join)
