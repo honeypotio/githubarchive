@@ -62,7 +62,6 @@ class Githubarchive
     end
 
     def call(event)
-      event['username'] = event.dig('actor','login') if event['actor']
       event['payload'] = Sequel.pg_jsonb(event['payload']) if event['payload']
       event['repo'] = Sequel.pg_json(event['repo']) if event['repo']
       event['actor'] = Sequel.pg_json(event['actor']) if event['actor']
@@ -86,12 +85,10 @@ class Githubarchive
         DateTime :created_at
         String :id, unique: true
         column :other, :json
-        String :username, size: 40
         DateTime :inserted_at, null: false # Utility column
         DateTime :updated_at, null: false # Utility column
-
-        index :username
       end
+      database.run("CREATE INDEX actor_login ON events ((actor->>'login'));")
     end
 
     def drop_table(name = :events)
