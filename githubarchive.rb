@@ -88,6 +88,7 @@ class Githubarchive
         DateTime :inserted_at, null: false # Utility column
         DateTime :updated_at, null: false # Utility column
       end
+      database.run("CREATE INDEX actor_login ON events ((actor->>'login'));")
     end
 
     def drop_table(name = :events)
